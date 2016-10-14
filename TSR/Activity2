@@ -1,0 +1,82 @@
+var ev = require('events');
+var emitter = new ev.EventEmitter;
+var e1 = "print";
+var e2 = "read";
+var e3 = "uno";
+var e4 = "dos";
+var e5 = "tres";
+var num3 = 0;
+var num4 = 0;
+var num5 = 0;
+var freq2 = 2000;
+
+// Constructor for class Listener.
+function Listener(n1,n2) {
+this.num1 = 0;
+this.name1 = n1;
+this.num2 = 0;
+this.name2 = n2;
+this.num3 = 0;
+this.num4 = 0;
+this.num5 = 0;
+}
+
+/*Listener.prototype.event1 = function() {
+this.num1++;
+console.log( "Event " + this.name1 + " has happened " + this.num1 + " times." );
+}
+
+Listener.prototype.event2 = function(a) {
+console.log( "Event " + this.name2 +  " (with arg: " + a + ") has happened " +
+++this.num2 + " times." );
+}*/
+Listener.prototype.event3 = function() {
+console.log("Listener activo " + ++this.num3 +" eventos de tipo uno");
+}
+Listener.prototype.event4 = function() {
+this.num4++;
+if(this.num4 > this.num3) console.log("Evento dos");
+	else {console.log("Hay mas eventos de tipo uno");}
+}
+
+
+Listener.prototype.event5 = function() {
+
+if(freq2 == 18000) {
+	clearInterval(generateEvent2);
+	setInterval(generateEvent2,18000);}
+else {freq2 = freq2*3;
+	console.log("Evento3 freq2 " +freq2);}
+}
+
+
+// A Listener object is created.
+var lis = new Listener(e3,e4,e5);
+
+// Listener is registered on the event emitter.
+/*emitter.on(e1, function() {lis.event1()});
+emitter.on(e2, function(x) {lis.event2(x)});*/
+
+// There might be more than one listener for the same event.
+//emitter.on(e1, function() {console.log("Something has been printed!!");});
+emitter.on(e3, function() {lis.event3()});
+emitter.on(e4, function() {lis.event4()});
+emitter.on(e5, function() {lis.event5()});
+
+// Auxiliary function for generating e2.
+//var counter=0;
+function generateEvent1() {
+emitter.emit(e3);
+}
+function generateEvent2() {
+emitter.emit(e4);
+}
+function generateEvent3() {
+emitter.emit(e5);
+}
+// Generate the events periodically...
+
+setInterval( generateEvent1, 3000 );
+
+setInterval( generateEvent2, 2000 );
+setInterval( generateEvent3, 10000 );
