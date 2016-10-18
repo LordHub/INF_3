@@ -1,0 +1,25 @@
+select netapa
+from etapa
+where netapa = any (select P.netapa from puerto P where altura > 700 );
+--Exercise 24 Ciclista Obtener el valor del atributo netapa de aquellas etapas tales que todos los puertos que están en ellas
+--tienen más de 700 metros de altura.
+select distinct P.netapa
+from etapa E, puerto P 
+where e.netapa = p.netapa and not exists (select * from puerto P2 where P2.NOMPUERTO = P.NOMPUERTO and not P.altura > 700 )
+order by P.netapa;
+
+
+-- Exercise 25 ciclista Obtener el nombre y el director de los equipos tales que todos sus ciclistas son mayores de 25 años.                   
+select distinct E.nomeq , E.director
+from equipo E, ciclista C
+where E.NOMEQ = C.NOMEQ and not exists (select * from ciclista C2 where C2.dorsal = C.dorsal and C2.EDAD < 25 )
+order by E.nomeq;
+
+-- Exercise 33 Libros
+SELECT distinct A.cod_act , A.nombre
+from cs_actor A , cs_actua X
+where not exists (select * 
+                  from cs_actua X2
+                  where a.cod_act = X2.cod_act
+                  and not X2.papel = 'Secundario')
+                   and a.cod_act = X.COD_ACT;
