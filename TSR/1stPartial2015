@@ -1,0 +1,144 @@
+1.Distributed sistems:
+
+-A : usually consist of multiple agents that are executed concurrently. 
+Those agents mantain some independent state. (Agents are sequential processes -> Process == State machine )
+
+2.Cloud computing:
+
+-E: All off the above.
+It's one of the current service provision paradigms in distributed computing.
+It aims at providing SW services in a scalable and efficient way.
+It follows a PPU model.
+It uses virtualised infrastructures in the common case.
+
+3. In a distributed system, its agent interact:
+
+B: exchanging messages or sharing memory. (If they don't interact the result would be a large set of independent
+and isolated processes instead of an efficient system)
+Messages and sharing mem are 2 regular communication mechanisms is concurrent systems. Distrubuted systems also use both approaches.
+
+4.The guard/ action programming model is used in...
+
+D: Asynchronous programming, where its events are guards and its event listeners 
+are actions. (A guard is a boolean expression that must evaluate to true if the program execution 
+is to continue in the branch in question)
+
+5.Some expected features in distributed system models are...
+
+-They are centred on the main properties of the system behaviour.
+-They  provide  a  good  basis  to  reason  about  the  correctness  of  the  algorithms 
+and protocols based on them.
+-A high level of abstraction.
+-They provide a basis for discussing about the impossibility of solving problems in 
+some kinds of distributed systems; e.g., consensus in asynchronous systems
+
+6.The elements of a system model can be...
+
+B: Processes, events, communication aspects, failures, time management and level 
+of synchrony.
+
+7. In distributed computing, the use of middleware is recommended because... 
+
+- It introduces multiple transparencies, hiding low-level details and providing 
+ a uniform interface.
+-It facilitates the implementation of programmes and reduces the complexity of 
+the elements being handled.
+-It provides a standardised, well understood and well defined way of doing things.
+-It improves interoperability; i.e., the interaction with products from third 
+parties.
+
+8.Problems in distributed object-oriented Systems:
+
+-All objects seem to be local to their caller and this may hide lengthy invocation 
+intervals. (These results into a longer time of compliting an object invocation)
+-Objects  maintain  state  and  that  state  is  shared  by  all  agents  that  are  invoking 
+their methods. This may lead to consistency problems.
+-Their  shared  state  needs  concurrency  control  mechanisms.  Those  mechanisms 
+lead to blocking intervals that prevent these systems from being scalable
+-Their  invocation  mechanisms  provide  a  high  degree  of  location  transparency. 
+This fact demands complex recovery protocols in order to deal with failures.
+
+9.Considering this (The logBase was empty at all) node programme: 
+
+function logarithm(x,b) { return Math.log(x)/Math.log(b) }
+function logBase(b) { return function(x) { return logarithm(x,b) }}
+log2 = logBase(2);
+log8 = logBase(8);
+console.log("Logarithm base 2 of 1024 = " + log2(1024));
+console.log("Logarithm base 8 of 4096 = " + log8(4096));
+
+10.Considering this node programme: 
+
+var fruits = ["Banana", "Orange", "Lemon", "Apple"];
+var numbers = [7, 3, "Cloud", 9];
+var funcs = [function(x) {return 2*numbers[x]}, 
+             function(x) {return fruits[x]}]; 
+var s = "";
+for (var i=0; i<2; i++) 
+  for (var j=0; j<5; j=j+2) 
+    s += funcs[i](j) + ", ";
+console.log(s);
+
+Its output (once it is run) will be:
+Function funcs[0] returns the result of two times the value contained in 
+numbers[j]. That value should be a number (otherwise, the result of using the 
+operator “*” is NaN). Function funcs[1] returns component “j” in array fruits[].
+i=0 define que hay que usar la funcion numbers e i=1 frutis
+i=0 j=0 14
+i=0 j=2 NaN
+i=0 j=4 NaN points to ( it can also be considered undefined)
+i=1 j=0 Banana 
+i=1 j=2 Lemon
+i=1 j=4 undefined
+
+
+11.Considering the following node function:
+function f(x,y) {
+  x = x || 'orange'; y = y || 98;
+  console.log('x='+x+' y='+y);
+}
+
+Please choose will be its output when it is invoked in the following ways: 
+f(36);  --> The output is:  x=36 y=98
+f(undefined,'apple');  -->  x='orange' y='apple' 
+f(45,0,67); --> x=45 y=98
+If x or y is not false it prints the value, otherwise it prints the value of the OR.
+In the last question, when it states y=0 it's interpreted as fañlse therefore it takes 98
+
+
+11.Considering the following node programme:
+var eve = new (require('events')).EventEmitter;
+var s = "print";
+var n = 0;
+var handler = setInterval( function(){eve.emit(s);}, 1000 );
+eve.on(s, function() {
+  if ( n < 2 ) console.log("Event", s, ++n, "times.");
+  else clearInterval(handler);
+});
+Please select the correct choice regarding programme output (first part) and 
+execution time (second part): 
+The output is: 
+Event print 1 times.
+Event print 2 times.
+The programme is terminated in 3
+seconds. 
+
+
+13.Considering this node.js programme...
+var http = require('http');
+var fs = require('fs');
+http.createServer(function(request,response) {
+fs.readdir(__dirname, function(err,data) {
+  if (err) {
+    response.writeHead(404, {'Content-Type':'text/plain'});
+    response.end('Unable to read directory '+__dirname);
+} else {
+   response.writeHead(200, {'Content-Type':'text/plain'});
+   response.write('Directory: ' + __dirname + '\n');
+   response.end(data.toString());
+  }
+})
+}).listen('1337');
+
+
+
