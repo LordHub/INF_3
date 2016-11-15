@@ -7,6 +7,24 @@ WHERE A.cod_act = C.cod_act and C.cod_peli in (SELECT P.cod_peli
                                   and P.director LIKE '%Guy Ritchie%')
 GROUP BY A.cod_act, A.nombre;
 
+#EJERCICIO 35 PELICULAS
+SELECT A.cod_act, A.nombre
+FROM CS_Actor A, CS_Actua C
+WHERE A.cod_act = C.cod_act and C.cod_peli in (SELECT P.cod_peli
+                                  FROM cs_pelicula P 
+                                  WHERE c.cod_peli = P.cod_peli 
+                                  and P.director LIKE '%John Steel%')
+GROUP BY A.cod_act, A.nombre;
+
+#EJERCICIO 36 PELICULAS da una pelicula más que la solución
+SELECT P.cod_peli, P.titulo
+FROM cs_pelicula P, cs_actua C
+WHERE P.cod_peli=C.cod_peli and p.duracion < 100 and C.COD_ACT in (select A.COD_ACT 
+                                                                  from cs_Actor A, cs_pais S
+                                                                  where A.cod_pais=S.cod_pais)
+group by p.cod_peli, p.titulo
+order by p.cod_peli;
+
 #EJERCICIO 39 PELICULAS
 SELECT L.cod_lib , L.titulo, COUNT(P.COD_PELI)
 FROM cs_pelicula P, cs_libro L
