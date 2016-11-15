@@ -94,3 +94,20 @@ WHERE P.COD_PAIS = A.COD_PAIS and 2 = (select count(C.cod_act)
                                                 from  cs_actua C, cs_pelicula P 
                                                 WHERE C.cod_peli = P.cod_peli)
 GROUP BY P.COD_PAIS,P.nombre;
+
+
+--EJERCICIO 47 TEACHER WHITEBOARD
+SELECT P.cod_pais, P.nombre
+FROM BDA.CS_PAIS P, BDA.CS_ACTOR A
+WHERE P.COD_PAIS = A.COD_PAIS 
+and 2 = (SELECT count (*)
+        FROM cs_actua AC 
+        WHERE AC.COD_ACT = A.cod_act)
+GROUP BY P.cod_pais, P.nombre
+HAVING COUNT (*) = (SELECT max (COUNT (*))
+                  FROM cs_actor A2 
+                  WHERE 2 = (SELECT COUNT (*)
+                            FROM CS_actua AC2
+                            WHERE A2.cod_act = AC2.cod_act)
+                  GROUP BY A2.cod_pais
+                          )
