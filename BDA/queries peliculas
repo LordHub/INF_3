@@ -25,6 +25,16 @@ WHERE P.cod_peli=C.cod_peli and p.duracion < 100 and C.COD_ACT in (select A.COD_
 group by p.cod_peli, p.titulo
 order by p.cod_peli;
 
+--Da muchas mas EJERCICIO 37
+SELECT P.cod_peli, P.titulo, P.anyo
+FROM cs_pelicula P, cs_actua C
+WHERE P.cod_peli=C.cod_peli and C.COD_ACT in (select A.COD_ACT 
+                                              from cs_Actor A
+                                              where extract (year from A.FECHA_NAC) <1944)
+group by p.cod_peli, p.titulo, p.anyo
+order by p.cod_peli;
+
+
 #EJERCICIO 39 PELICULAS
 SELECT L.cod_lib , L.titulo, COUNT(P.COD_PELI)
 FROM cs_pelicula P, cs_libro L
@@ -62,3 +72,25 @@ ORDER BY P.director;
 #EJERCICIO 43 List for each movie with some actor and classified in one (and only one) genre, the code, tittle and
 # amount of actors who have acted in that movie.
 SELECT 
+
+--EJERCICIO 46 to finish
+select L.COD_LIB, L.TITULO, L.AUTOR
+from cs_libro L, CS_PELICULA P
+where L.cod_lib = P.cod_lib and P.cod_lib in (select max (count (P2.cod_libro)) 
+                                              from cs_pelicula P2
+                                          )
+group by L.cod_lib, L.titulo , L.autor
+order by L.TITULO;
+
+select P.cod_lib from cs_pelicula P, cs_libro L 
+WHERE P.COD_LIB = L.COD_LIB and P.cod_lib in (SELECT P.cod FROM cs_pelicula R 
+WHERE);
+
+
+--EJERCICIO 47 to finish 
+SELECT P.cod_pais, P.nombre
+FROM cs_pais P, cs_actor A
+WHERE P.COD_PAIS = A.COD_PAIS and 2 = (select count(C.cod_act)
+                                                from  cs_actua C, cs_pelicula P 
+                                                WHERE C.cod_peli = P.cod_peli)
+GROUP BY P.COD_PAIS,P.nombre;
