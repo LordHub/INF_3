@@ -122,3 +122,11 @@ WHERE 3 <= ( select count(*)
                                                       select max (count (*))
                                                       FROM cs_actor D
                                                       group by extract (year from D.fecha_nac) );
+                                                      
+--50.List for all the countries in the database, the code, name, and amount of actors in each country. 
+SELECT distinct P.NOMBRE, P.COD_PAIS, count(A.COD_PAIS)
+FROM cs_pais P 
+LEFT JOIN cs_actor A
+ON P.COD_PAIS = A.COD_PAIS 
+group by P.cod_pais, P.nombre , A.cod_Pais
+order by P.nombre; 
