@@ -39,6 +39,26 @@ and not exists (select *
 group by p.cod_peli, p.titulo, p.anyo
 order by p.titulo;
 
+--38. List	the	code	and	name	of	all	the	countries	if	all	the	actors from	that	country	have	acted	in	at least	one	
+--movie	with	a	length greater	than	120	minutes	(sorted	by	name).
+SELECT P.cod_pais, P.NOMBRE
+FROM cs_pais P 
+WHERE  EXISTS (select *
+              FROM cs_actor A 
+              where P.COD_PAIS= A.COD_PAIS and A.COD_ACT in (SELECT C.cod_act
+                                                            FROM cs_actua C
+                                                            where C.cod_peli in (select E.cod_peli 
+                                                                                from cs_pelicula E
+                                                                                where E.DURACION >= 120 )
+    )) 
+    and not exists (select *
+              FROM cs_actor A 
+              where P.COD_PAIS= A.COD_PAIS and A.COD_ACT not in (SELECT C.cod_act
+                                                            FROM cs_actua C
+                                                            where C.cod_peli in (select E.cod_peli 
+                                                                                from cs_pelicula E
+                                                                                where E.DURACION  >= 120 )))
+                                                                                order by P.nombre;
 
 #EJERCICIO 39 PELICULAS
 SELECT L.cod_lib , L.titulo, COUNT(P.COD_PELI)
