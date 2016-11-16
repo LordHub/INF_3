@@ -111,3 +111,14 @@ HAVING COUNT (*) = (SELECT max (COUNT (*))
                             WHERE A2.cod_act = AC2.cod_act)
                   GROUP BY A2.cod_pais
                           )
+
+--EJERCICIO 48
+SELECT count(extract (year from A.fecha_nac)), extract (year from A.fecha_nac) 
+FROM cs_actor A
+WHERE 3 <= ( select count(*)
+            from cs_actor C
+            where extract (year from C.fecha_nac) = extract (year from A.fecha_nac)
+          ) group by extract (year from A.fecha_nac) having count (*)= (
+                                                      select max (count (*))
+                                                      FROM cs_actor D
+                                                      group by extract (year from D.fecha_nac) );
