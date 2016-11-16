@@ -25,14 +25,19 @@ WHERE P.cod_peli=C.cod_peli and p.duracion < 100 and C.COD_ACT in (select A.COD_
 group by p.cod_peli, p.titulo
 order by p.cod_peli;
 
---Da muchas mas EJERCICIO 37
-SELECT P.cod_peli, P.titulo, P.anyo
-FROM cs_pelicula P, cs_actua C
-WHERE P.cod_peli=C.cod_peli and C.COD_ACT in (select A.COD_ACT 
-                                              from cs_Actor A
-                                              where extract (year from A.FECHA_NAC) <1944)
+-- EJERCICIO 37
+ SELECT P.cod_peli, P.titulo, P.anyo
+FROM cs_pelicula P
+WHERE EXISTS ( SELECT *
+              FROM  cs_actua C
+              WHERE P.cod_peli = C.cod_peli) 
+and not exists (select * 
+                from cs_Actor A, cs_actua AC
+                where extract (year from A.FECHA_NAC) >= 1943 
+                and P.cod_peli = AC.cod_peli 
+                and AC.COD_ACT = A.cod_act)
 group by p.cod_peli, p.titulo, p.anyo
-order by p.cod_peli;
+order by p.titulo;
 
 
 #EJERCICIO 39 PELICULAS
