@@ -98,6 +98,18 @@ ORDER BY P.director;
 # amount of actors who have acted in that movie.
 SELECT 
 
+--44. List the code and name of all the countries with actors, indicating how many actors from that country
+--have acted in at least one movie from the 60’s.
+SELECT P.cod_pais , P.NOMBRE , count (A.cod_act)
+FROM cs_pais P, cs_actor A
+WHERE P.cod_pais = A.cod_pais and A.cod_act in (SELECT C.cod_act
+                                                FROM cs_actua C, cs_pelicula P 
+                                                WHERE C.cod_act = A.cod_act and C.COD_PELI = P.cod_peli
+                                                and P.ANYO > 1959 and P.anyo<1970)
+group by P.cod_pais,P.nombre
+having count (A.cod_act) > 0
+order by P.nombre;
+
 --EJERCICIO 46 to finish
 select L.COD_LIB, L.TITULO, L.AUTOR
 from cs_libro L, CS_PELICULA P
