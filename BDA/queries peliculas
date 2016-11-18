@@ -110,18 +110,15 @@ group by P.cod_pais,P.nombre
 having count (A.cod_act) > 0
 order by P.nombre;
 
---EJERCICIO 46 to finish
-select L.COD_LIB, L.TITULO, L.AUTOR
-from cs_libro L, CS_PELICULA P
-where L.cod_lib = P.cod_lib and P.cod_lib in (select max (count (P2.cod_libro)) 
-                                              from cs_pelicula P2
-                                          )
-group by L.cod_lib, L.titulo , L.autor
-order by L.TITULO;
-
-select P.cod_lib from cs_pelicula P, cs_libro L 
-WHERE P.COD_LIB = L.COD_LIB and P.cod_lib in (SELECT P.cod FROM cs_pelicula R 
-WHERE);
+--46 List the code/s title7s and authors/s of the most used book in movies
+SELECT L.cod_lib, L.TITULO , L.AUTOR
+FROM cs_libro L , cs_pelicula P
+WHERE L.cod_lib = P.cod_lib 
+group by L.COD_LIB,L.TITULO,L.AUTOR
+having count (L.cod_lib) = (select max(count(*))
+                                 from cs_pelicula P2, cs_libro L2
+                                 where P2.cod_lib = L2.cod_lib
+                                 group by p2.cod_lib);
 
 
 --EJERCICIO 47 to finish 
