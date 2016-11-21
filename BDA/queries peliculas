@@ -164,3 +164,36 @@ LEFT JOIN cs_actor A
 ON P.COD_PAIS = A.COD_PAIS 
 group by P.cod_pais, P.nombre , A.cod_Pais
 order by P.nombre; 
+
+--54. List the years, in ascending order, of all the years in which a book was published or a movie was
+--released. We are only interested in years without the digit 9.
+SELECT L.anyo
+from cs_libro L
+WHERE L.anyo not like '%9%'
+UNION 
+SELECT P.anyo
+from cs_pelicula P
+WHERE P.anyo not like '%9%';
+
+--55. List the name of the genre (or genres) of the longest movie.
+SELECT G.COD_GEN, G.NOMBRE
+FROM cs_genero G, cs_clasificacion C ,  cs_pelicula P
+WHERE G.COD_GEN = C.COD_GEN and C.COD_PELI = P.COD_PELI and P.duracion = (
+SELECT max(P2.duracion)
+FROM  cs_pelicula P2 );
+
+--56. List, for each actor born before 1948 who has acted in 2 or more movies in any role, the code, the
+--name and the date of birth, indicating in how many movies he/she has performed the ‘Principal’ role.
+SELECT A.COD_ACT, A.nombre , A.FECHA_NAC , count( C.COD_ACT)
+FROM cs_actor A
+LEFT JOIN cs_actua C
+    ON papel = 'Principal' 
+    AND A.cod_act = c.cod_act
+where extract(year from A.FECHA_NAC) < 1948 and 2 <= (select count (*)
+                                                    from cs_actua c2
+                                                    where A.cod_act = C2.cod_act)
+ 
+group by A.COD_ACT , A.nombre, A.fecha_nac
+order by A.nombre;
+
+
