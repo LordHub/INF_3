@@ -120,6 +120,15 @@ group by P.cod_pais,P.nombre
 having count (A.cod_act) > 0
 order by P.nombre;
 
+--Ejercicio 45
+select G.COD_GEN, G.nombre
+from cs_genero G, cs_clasificacion C
+where G.cod_gen = C.cod_gen 
+group by G.COD_GEN, G.NOMBRE
+having count(G.cod_gen ) = (select max(count(*))
+                    from cs_clasificacion C2 
+                    group by C2.COD_GEN);
+
 --46 List the code/s title7s and authors/s of the most used book in movies
 SELECT L.cod_lib, L.TITULO , L.AUTOR
 FROM cs_libro L , cs_pelicula P
