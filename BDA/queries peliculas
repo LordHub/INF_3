@@ -1,11 +1,11 @@
 --Ejercicio 32
 select P.cod_pais , P.nombre
-from cs_pelicula P
-where not exists (select *
-                  from cs_actor A
-                  where A.cod_pais = P.cod_pais and extract(year from A.fecha_nac) > 1900 and 
-                  and extract(year from A.fecha_nac) <2001)
-group by P.cod_pais, P.nombre;
+from cs_pais P, cs_actor A
+where A.cod_pais = P.cod_pais and extract(year from A.fecha_nac) > 1900  
+                  and extract(year from A.fecha_nac) < 2001 
+
+group by P.cod_pais, P.nombre
+order by P.nombre;
 
 
 #EJERCICIO 34 PELICULAS
