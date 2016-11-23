@@ -1,0 +1,12 @@
+1. Expressions
+a) Error estimation
+nerr =  3
+m =
+
+   18    0    0    1    0
+    0   13    0    0    0
+    0    0    9    1    0
+    0    0    0    8    1
+    0    0    0    0   16
+
+b)
