@@ -1,0 +1,12 @@
+Time = 51.1587663510
+Number of threads  01
+Time = 25.9850225670
+Number of threads  02
+Time = 13.4479427700
+Number of threads  04
+Time = 7.3479995350
+Number of threads  08
+Time = 4.5553299960
+Number of threads  16
+Time = 2.9073394880
+Number of threads  32
