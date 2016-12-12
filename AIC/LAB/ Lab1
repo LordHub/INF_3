@@ -1,0 +1,49 @@
+2.	Amdahl's law
+
+Computation of local speed up S
+
+					                    scalar-std		scalar-sse		scalar-load
+execution time (user+system)	0m0.844s		   0m0.728s		    0m0.580s
+
+
+SSE instructions speeds up scalar product in a factor of (S): 1,78378378
+
+
+3.
+Computation of the time fraction F
+
+				                      std		  sse		      Global Speed Up(S') 	Timfraction(Fexp)
+execution time(user+system)	0m3.94s	  0m2.704s				                    0.7472081
+
+
+tmat-res=0m0.996s
+
+S'(Sg) = tmat-std / tmat-sse = 3.94s / 2,704s = 1.4571006s
+
+F= (1.457 * 1,78 – 1,78) / (1,457 * 1,78 -1,457) = 0.7157841015
+
+Fexp > Fnoexp
+
+
+
+performance analysis
+
+dhrystone  
+real    0m10.801s
+user    0m0.920s
+sys     0m0.000s
+
+whetstone 0m0.347s
+real    0m0.347s
+user    0m0.344s
+sys     0m0.000s
+
+Tgcc
+real    0m10.934s
+user    0m8.129s
+sys     0m0.700s
+
+xv application
+real    0m6.076s
+user    0m0.928s
+sys     0m0.072s
