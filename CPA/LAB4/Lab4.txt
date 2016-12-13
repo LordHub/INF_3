@@ -1,3 +1,6 @@
+ CYCLIC DISTRIBUTION WITH MPI   
+---------------------------------
+
 Example n= 5 p=3 number of processes
 The number of rows-> Block size mb = 5/3 = 2 (rounding up)
 two blocks of two and one of one line, it adds a ficticious row at the to make the block size a multiple.
@@ -15,3 +18,20 @@ b is replicated in all the procs, using MPI Bcast.
 nRellenaMat generates the matrix
 pdGenTI generates vector B
 TO distribute A MPI_Bcast at the end, in vector pdX
+
+We need to do a new distribution:
+From p0 p0 p1 p1 p2 p2 to ->>  p0 p1 p2 p0 p1 p2
+
+We need to now, for each row i:
+The process where it goes (owner)
+The row index in the local matrix (local index)
+
+We need to do a Bcast to tell all the processses where they go 
+each iteration does all  rows, but only modifies the row it has assigned, broadcast row K
+
+to be able to implement this program we need to know:
+-The Owner
+-The local index
+
+ifs- i/mb  the index of the owner
+index row i -> i mod blocksize (i mod mb)
