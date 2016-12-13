@@ -35,3 +35,12 @@ to be able to implement this program we need to know:
 
 ifs- i/mb  the index of the owner
 index row i -> i mod blocksize (i mod mb)
+
+
+row index | owner | local index |       n= 6 p=3
+ 0           0         0 
+ 1           1         0
+ 2           2         0
+ 3           0         1
+ 4           1         1
+ 5           2         1
