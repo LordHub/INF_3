@@ -1,0 +1,81 @@
+/* LU Factorization                                           */
+/* Performs an LU decomposition on matrix A                   */
+/* Leaves L on the lower triangle of A and U in the upper one */
+/* Input: Matrix A and dimension                              */
+/* Output: Matrix L / U
+int nLU(double **ppdMat, int nN, int nId, int nP, int nBloque) {
+int i,j,k;
+double *pdPivote;
+if (ppdMat == NULL)
+return -2;
+if ( (nN<=0) || (nN>MAX_DIM) )
+return -3;
+pdPivote = (double *)malloc(sizeof(double)*nN);
+for (k=0;k<nN-1;k++) {
+if (k/nBloque == nId) {
+if (fabs(ppdMat[k%nBloque][k])<EPSILON) {
+return -1;
+}
+memcpy(pdPivote, ppdMat[k%nBloque], nN*sizeof(double));
+}
+MPI_Bcast(pdPivote, nN, MPI_DOUBLE, k/nBloque, MPI_COMM_WORLD);
+for (i=k+1;i<nN;i++) {
+if (i/nBloque == nId) {
+ppdMat[i%nBloque][k] = ppdMat[i%nBloque][k] / pdPivote[k];
+for (j=k+1;j<nN;j++) {
+ppdMat[i%nBloque][j] -= ppdMat[i%nBloque][k] * pdPivote[j];
+}
+}
+}
+}
+free (pdPivote);
+return 0;
+}
+/* Forward Elimination                                    */
+/* Solves the system Lx = b                               */
+/* Input: Matrix L, Vector B and Dimension                */
+/* Output: Result Vector                                  */
+/* Note: Assumes that memory is already allocated         */
+/* Note: Returns the solucion in vector B                 */
+int nElimProg(double **ppdL, double *pdB, int nN, int nId, int nP, int nBloque) {
+int i, j;
+if (ppdL == NULL)
+return -2;
+if ( (nN<=0) || (nN>MAX_DIM) )
+return -3;
+for(i=0;i<nN;i++) {
+MPI_Bcast(&pdB[i], 1, MPI_DOUBLE, i/nBloque, MPI_COMM_WORLD);
+for (j=i+1;j<nN;j++) {
+if (j/nBloque == nId) {
+pdB[j] -= ppdL[j%nBloque][i] * pdB[i];
+}
+}
+}
+return 0;
+}
+/* Backward Substitution                                  */
+/* Solves the system Ux = b                               */
+/* Input: Matrix U, Vector B and Dimension                */
+/* Output: Result Vector                                  */
+/* Note: Assumes that memory is already allocated         */
+/* Note: Returns the solucion in vector B                 */
+int nSustReg(double **ppdU, double *pdB, int nN, int nId, int nP, int nBloque) {
+int i, j;
+if (ppdU == NULL)
+return -2;
+if ( (nN<=0) || (nN>MAX_DIM) )
+return -3;
+for(i=nN-1;i>=0;i--) {
+if (i/nBloque == nId) {
+if (fabs(ppdU[i%nBloque][i])<EPSILON) return -1;
+pdB[i] = pdB[i] / ppdU[i%nBloque][i];
+}
+MPI_Bcast(&pdB[i], 1, MPI_DOUBLE, i/nBloque, MPI_COMM_WORLD);
+for (j=i-1;j>=0;j--) {
+if (j/nBloque == nId) {
+pdB[j] -= ppdU[j%nBloque][i] * pdB[i];
+}
+}
+}
+return 0;
+}
