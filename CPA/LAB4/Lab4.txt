@@ -1,1 +1,17 @@
-Done
+Example n= 5 p=3 number of processes
+The number of rows-> Block size mb = 5/3 = 2 (rounding up)
+two blocks of two and one of one line, it adds a ficticious row at the to make the block size a multiple.
+Once that is done we use a MPI_Scatter, itś necessary that all the blocks have the same number of rows
+
+Original distribution:
+A is distributed by blocks of rows, using MPI Scatter.
+-ppdMat: whole matrix, only in proc. 0
+- ppdMatLcl: local matrix
+- nBloque: block size
+- fictitious rows are added to make the number of rows a
+- multiple of the number of procs.
+b is replicated in all the procs, using MPI Bcast.
+
+nRellenaMat generates the matrix
+pdGenTI generates vector B
+TO distribute A MPI_Bcast at the end, in vector pdX
