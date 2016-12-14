@@ -11,11 +11,11 @@ m =
 
 b)95% confidence interval for the estimated error
 
-nerr = 3; M=300; output_precision(2);
-m=nerr/M                                           m =  0.010
-s=sqrt(m*(1-m)/M)                                  s =  0.0057
-r=40.96*s                                          r =  0.24
-octave:37> printf("I=[%.3f, %.3f]\n",m-r,m+r);     I=[-0.225, 0.245]
+nerr = 3; M=1229; output_precision(2);
+m=nerr/M                                           m =  0.0023
+s=sqrt(m*(1-m)/M)                                  s =  0.0013
+r=2.25*s                                           r =  0.0030
+octave:37> printf("I=[%.3f, %.3f]\n",m-r,m+r);     I=[-0.001, 0.005]
 
 c) Effect of α
 #      a   E   k Ete
@@ -38,3 +38,14 @@ d) 3.4  Effect of b
   1000.0   0  63   3
  10000.0   0  57   2
 100000.0   0  95   3
+
+2.Gauss2D
+
+a)Error estimation 
+nerr =  140
+m =
+
+   484   100
+    40   576
+b)95% confidence interval for the estimated error
+
