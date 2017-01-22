@@ -1,0 +1,10 @@
+--Ejercicio 46
+select C.dorsal, C.nombre
+from ciclista C
+where c.dorsal in (select L.dorsal
+                   from llevar L
+                   where ((select count(distinct l2.codigo)
+                          from llevar l2
+                          where l2.DORSAL = c.dorsal) + 3) < (select count(distinct l3.codigo)
+                                                             from llevar l3
+                                                             where l3.dorsal = 1));
