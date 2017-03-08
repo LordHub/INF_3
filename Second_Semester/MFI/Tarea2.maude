@@ -68,3 +68,24 @@ fmod BATTERY-MAUDE is
 	eq consume(Bt) = Bt [owise] .
 endfm
 
+fmod BATTERY-ALL is
+	protecting BATTERY-MAUDE .
+    protecting BATTERY-EXT .
+	protecting NAT .
+	protecting BOOL .
+
+	op size : Battery -> Nat .
+	op half-charge? : Battery -> Bool .
+	
+	var EBt : EBattery .
+	var Bt : Battery .
+	var Bcell : Cell .
+
+	eq size (nil) = 0 .
+	eq size (EBt ^ Bcell ^ Bt) = 1 + size (Bt) .
+
+	eq half-charge? (nil) = false .
+    ceq half-charge? (Bt) = true if charge(Bt) quo size (Bt) >= 50 .
+	 eq half-charge? (Bt) = false [owise] .
+		
+endfm
